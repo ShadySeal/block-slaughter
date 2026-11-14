@@ -1,8 +1,10 @@
-#include <iostream>
+#include <engine/core/app.h>
 
 int main()
 {
-    std::cout << "Hello, world!";
-    
+    engine::App app;
+
+    app.Run();
+
     return 0;
 }

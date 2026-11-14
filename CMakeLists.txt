@@ -10,3 +10,6 @@ find_package(glm REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(game)
+add_subdirectory(engine)
+
+target_link_libraries(block_slaughter PRIVATE engine)
