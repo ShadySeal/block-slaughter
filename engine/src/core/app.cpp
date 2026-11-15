@@ -1,4 +1,5 @@
 #include "engine/core/app.h"
+#include "engine/core/log.h"
 
 namespace engine
 {
