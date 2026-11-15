@@ -8,6 +8,6 @@ namespace engine
         App();
         ~App();
 
-        void Run();
+        void run();
     };
 }

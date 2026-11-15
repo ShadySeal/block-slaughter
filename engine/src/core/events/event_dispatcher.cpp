@@ -11,7 +11,7 @@ namespace engine
             return;
         }
 
-        _listeners.push_back(listener);
+        m_listeners.push_back(listener);
     }
 
     void EventDispatcher::unsubscribe(IEventListener* listener)
@@ -22,14 +22,14 @@ namespace engine
             return;
         }
 
-        std::erase(_listeners, listener);
+        std::erase(m_listeners, listener);
     }
 
     void EventDispatcher::dispatch(Event event)
     {
-        for (int i = 0; i < _listeners.size(); i++)
+        for (int i = 0; i < m_listeners.size(); i++)
         {
-            _listeners[i]->onEvent(event);
+            m_listeners[i]->onEvent(event);
         }
     }
 }

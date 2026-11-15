@@ -1,5 +1,4 @@
 #include "event_listener.h"
-#include <vector>
 
 namespace engine
 {
@@ -10,7 +9,7 @@ namespace engine
         void unsubscribe(IEventListener* listener);
 
     private:
-        std::vector<IEventListener*> _listeners;
+        std::vector<IEventListener*> m_listeners;
 
     protected:
         void dispatch(Event event);

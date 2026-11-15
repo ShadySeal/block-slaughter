@@ -2,18 +2,18 @@
 
 namespace engine
 {
-    std::shared_ptr<spdlog::logger> Log::_coreLogger;
-    std::shared_ptr<spdlog::logger> Log::_clientLogger;
+    std::shared_ptr<spdlog::logger> Log::s_coreLogger;
+    std::shared_ptr<spdlog::logger> Log::s_clientLogger;
 
-    void Log::Init()
+    void Log::init()
     {
         spdlog::set_pattern("%^[%T] [%l] %n: %v [%s:%#]%$");
 
-        _coreLogger = spdlog::stdout_color_mt("ENGINE");
-        _coreLogger->set_level(spdlog::level::trace);
+        s_coreLogger = spdlog::stdout_color_mt("ENGINE");
+        s_coreLogger->set_level(spdlog::level::trace);
 
-        _clientLogger = spdlog::stdout_color_mt("APP");
-        _clientLogger->set_level(spdlog::level::trace);
+        s_clientLogger = spdlog::stdout_color_mt("APP");
+        s_clientLogger->set_level(spdlog::level::trace);
 
         LOG_CORE_INFO("Initialized log.");
     }

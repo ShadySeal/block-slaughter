@@ -3,11 +3,11 @@
 
 int main()
 {
-    engine::Log::Init();
+    engine::Log::init();
 
     engine::App app;
 
-    app.Run();
+    app.run();
 
     return 0;
 }

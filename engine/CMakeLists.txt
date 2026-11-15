@@ -7,3 +7,13 @@ add_library(engine STATIC ${ENGINE_SOURCES})
 target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(engine PUBLIC spdlog::spdlog)
+
+target_precompile_headers(engine PRIVATE
+    <iostream>
+    <memory>
+    <algorithm>
+
+    <string>
+    <vector> 
+    <unordered_map>
+)
