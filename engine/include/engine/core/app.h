@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+
+#include "engine/core/window.h"
+
 namespace engine
 {
     class App
@@ -9,5 +13,9 @@ namespace engine
         ~App();
 
         void run();
+
+    private:
+        std::unique_ptr<Window> m_window;
+        bool m_running;
     };
 }

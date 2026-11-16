@@ -1,11 +1,12 @@
 #include "engine/core/app.h"
 #include "engine/core/log.h"
 
+
 namespace engine
 {
     App::App()
     {
-
+        m_window = std::make_unique<Window>();
     }
 
     App::~App()
@@ -15,9 +16,11 @@ namespace engine
 
     void App::run()
     {
-        while (true)
+        m_running = true;
+
+        while (m_running)
         {
-            // Main loop
+            m_window->onUpdate();
         }
     }
 }

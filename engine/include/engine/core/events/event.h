@@ -1,13 +1,9 @@
+#pragma once
+
+#include "event_type.h"
+
 namespace engine
 {
-    enum class EventType
-    {
-        WINDOW_RESIZE,
-        WINDOW_CLOSE,
-        KEY_PRESSED,
-        MOUSE_MOVED
-    };
-
     struct Event
     {
         EventType type;

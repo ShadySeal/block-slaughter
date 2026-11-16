@@ -14,3 +14,4 @@ add_subdirectory(engine)
 
 # Libraries
 add_subdirectory(libs/spdlog)
+add_subdirectory(libs/glad)
