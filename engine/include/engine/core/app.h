@@ -3,8 +3,9 @@
 #include <memory>
 
 #include "engine/core/window.h"
+#include "engine/core/log.h"
 
-namespace engine
+namespace brick
 {
     class App
     {

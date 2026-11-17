@@ -4,8 +4,10 @@
 #include <GLFW/glfw3.h>
 #include "window_mode.h"
 #include "window_props.h"
+#include "assert.h"
+#include "engine/core/log.h"
 
-namespace engine
+namespace brick
 {
     class Window
     {

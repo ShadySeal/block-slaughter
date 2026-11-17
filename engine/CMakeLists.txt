@@ -2,11 +2,11 @@ file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-add_library(engine STATIC ${ENGINE_SOURCES})
+add_library(brick_engine STATIC ${ENGINE_SOURCES})
 
-target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(brick_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(engine PUBLIC
+target_link_libraries(brick_engine PUBLIC
     glad
     glfw
     glm::glm
@@ -14,7 +14,7 @@ target_link_libraries(engine PUBLIC
     spdlog::spdlog
 )
 
-target_precompile_headers(engine PRIVATE
+target_precompile_headers(brick_engine PRIVATE
     <iostream>
     <memory>
     <algorithm>

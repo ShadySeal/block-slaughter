@@ -1,6 +1,6 @@
 #include "event_listener.h"
 
-namespace engine
+namespace brick
 {
     class EventDispatcher
     {

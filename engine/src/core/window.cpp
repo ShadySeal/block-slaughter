@@ -1,7 +1,6 @@
 #include "engine/core/window.h"
-#include "engine/core/log.h"
 
-namespace engine
+namespace brick
 {
     static bool s_glfwInitialized = false;
 
@@ -21,14 +20,13 @@ namespace engine
         m_data.title = props.title;
         m_data.mode = props.mode;
 
-        LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, m_data.height, m_data.width);
+        BK_LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, m_data.height, m_data.width);
         
         if (!s_glfwInitialized)
         {
             int success = glfwInit();
 
-            // TODO: Make an assert macro to handle errors
-            //LOG_CORE_ERROR("Could not initialize GLFW!");
+            BK_CORE_ASSERT(success, "Could not initialize GLFW!");
 
             s_glfwInitialized = true;
         }
@@ -36,7 +34,7 @@ namespace engine
         m_window = glfwCreateWindow(m_data.width, m_data.height, m_data.title, NULL, NULL);
         if (m_window == NULL)
         {
-            LOG_CORE_ERROR("Failed to create window!");
+            BK_LOG_CORE_ERROR("Failed to create window!");
             glfwTerminate();
             return;
         }

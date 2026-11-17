@@ -1,6 +1,6 @@
 #include "event.h"
 
-namespace engine
+namespace brick
 {
     class IEventListener
     {

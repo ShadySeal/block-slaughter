@@ -1,6 +1,6 @@
 #include "engine/core/log.h"
 
-namespace engine
+namespace brick
 {
     std::shared_ptr<spdlog::logger> Log::s_coreLogger;
     std::shared_ptr<spdlog::logger> Log::s_clientLogger;
@@ -15,6 +15,6 @@ namespace engine
         s_clientLogger = spdlog::stdout_color_mt("APP");
         s_clientLogger->set_level(spdlog::level::trace);
 
-        LOG_CORE_INFO("Initialized log.");
+        BK_LOG_CORE_INFO("Initialized log.");
     }
 }

@@ -1,13 +1,13 @@
 #include "engine/core/events/event_dispatcher.h"
 #include "engine/core/log.h"
 
-namespace engine
+namespace brick
 {
     void EventDispatcher::subcribe(IEventListener* listener)
     {
         if (listener == nullptr)
         {
-            LOG_CORE_ERROR("Cannot add listener: null.");
+            BK_LOG_CORE_ERROR("Cannot add listener: null.");
             return;
         }
 
@@ -18,7 +18,7 @@ namespace engine
     {
         if (listener == nullptr)
         {
-            LOG_CORE_ERROR("Cannot remove listener: null.");
+            BK_LOG_CORE_ERROR("Cannot remove listener: null.");
             return;
         }
 
