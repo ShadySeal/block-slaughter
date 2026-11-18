@@ -4,6 +4,11 @@ namespace bk
 {
     static bool s_glfwInitialized = false;
 
+    static void glfwErrorCallback(int error, const char* description)
+    {
+        BK_LOG_CORE_ERROR("GLFW Error({}): {}", error, description);
+    }
+
     Window::Window(const WindowProps& props)
     {
         init(props);
@@ -27,6 +32,7 @@ namespace bk
             int success = glfwInit();
 
             BK_CORE_ASSERT(success, "Could not initialize GLFW!");
+            glfwSetErrorCallback(glfwErrorCallback);
 
             s_glfwInitialized = true;
         }
@@ -42,6 +48,12 @@ namespace bk
         glfwMakeContextCurrent(m_window);
         glfwSetWindowUserPointer(m_window, this);
 
+        handleCallbacks();
+    }
+
+    void Window::handleCallbacks()
+    {
+        // Resize
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
         {
             auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
@@ -49,18 +61,108 @@ namespace bk
             self->m_data.width = width;
             self->m_data.height = height;
 
-            Event event;
-            event.type = EventType::WINDOW_RESIZE;
+            Event event(EventType::WINDOW_RESIZE);
             event.resize.width = width;
             event.resize.height = height;
 
             self->dispatch(event);
         });
+
+        // Close
+        glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            Event event(EventType::WINDOW_CLOSE);
+
+            self->dispatch(event);
+        });
+
+        // Keys
+        glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            switch (action)
+            {
+                case GLFW_PRESS:
+                {
+                    Event event(EventType::KEY_PRESSED);
+                    event.key.key = key;
+                    self->dispatch(event);
+                    break;
+                }
+                case GLFW_RELEASE:
+                {
+                    Event event(EventType::KEY_RELEASED);
+                    event.key.key = key;
+                    self->dispatch(event);
+                    break;
+                }
+                case GLFW_REPEAT:
+                {
+                    Event event(EventType::KEY_REPEAT);
+                    event.key.key = key;
+                    self->dispatch(event);
+                    break;
+                }
+            }
+        });
+
+        // Mouse
+        glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            switch (action)
+            {
+                case GLFW_PRESS:
+                {
+                    Event event(EventType::MOUSE_BUTTON_PRESSED);
+                    self->dispatch(event);
+                    break;
+                }
+                case GLFW_RELEASE:
+                {
+                    Event event(EventType::MOUSE_BUTTON_RELEASED);
+                    self->dispatch(event);
+                    break;
+                }
+            }
+        });
+
+        // Scroll
+        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            Event event(EventType::MOUSE_SCROLLED);
+            event.scroll.x = xOffset;
+            event.scroll.y = yOffset;
+
+            self->dispatch(event);
+        });
+
+        // Cursor
+        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            Event event(EventType::MOUSE_SCROLLED);
+            event.mouse.x = xPos;
+            event.mouse.y = yPos;
+
+            self->dispatch(event);
+        });
     }
 
-    void Window::onUpdate()
+    void Window::pollEvents()
+    {
+        glfwPollEvents();
+    }
+
+    void Window::swapBuffers()
     {
         glfwSwapBuffers(m_window);
-        glfwPollEvents();
     }
 }

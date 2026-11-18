@@ -16,9 +16,19 @@ namespace bk
 
     void App::onEvent(Event event)
     {
-        if (event.type == EventType::WINDOW_RESIZE)
+        switch (event.type)
         {
-            BK_LOG_CORE_DEBUG("Window was resized!!.");
+            case EventType::WINDOW_CLOSE:
+            {
+                m_running = false;
+                break;
+            }
+            case EventType::KEY_PRESSED:
+            {
+                BK_LOG_CORE_TRACE("Key: {}", event.key.key);
+                
+                break;
+            }
         }
     }
 
@@ -28,7 +38,8 @@ namespace bk
 
         while (m_running)
         {
-            m_window->onUpdate();
+            m_window->pollEvents();
+            m_window->swapBuffers();
         }
     }
 }

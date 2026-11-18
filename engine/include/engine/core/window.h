@@ -16,7 +16,8 @@ namespace bk
             Window(const WindowProps& props = WindowProps());
             ~Window();
 
-            void onUpdate();
+            void pollEvents();
+            void swapBuffers();
 
             unsigned int getWidth() { return m_data.width; };
             unsigned int getHeight() { return m_data.height; };
@@ -34,5 +35,6 @@ namespace bk
             WindowData m_data;
 
             void init(const WindowProps& props);
+            void handleCallbacks();
     };
 }
