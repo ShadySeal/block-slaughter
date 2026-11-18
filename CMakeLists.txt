@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(glfw3 3.6.0 REQUIRED)
 find_package(glm REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -14,4 +13,9 @@ add_subdirectory(engine)
 
 # Libraries
 add_subdirectory(libs/spdlog)
+add_subdirectory(libs/glfw)
 add_subdirectory(libs/glad)
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)

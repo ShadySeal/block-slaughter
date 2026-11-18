@@ -18,7 +18,6 @@ target_precompile_headers(brick_engine PRIVATE
     <iostream>
     <memory>
     <algorithm>
-
     <string>
     <vector> 
     <unordered_map>
