@@ -1,6 +1,8 @@
+#pragma once
+
 #include "event.h"
 
-namespace brick
+namespace bk
 {
     class IEventListener
     {

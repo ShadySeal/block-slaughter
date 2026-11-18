@@ -1,6 +1,8 @@
+#pragma once
+
 #include "event_listener.h"
 
-namespace brick
+namespace bk
 {
     class EventDispatcher
     {

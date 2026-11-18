@@ -1,6 +1,6 @@
 #pragma once
 
-namespace brick
+namespace bk
 {
     enum class EventType
     {

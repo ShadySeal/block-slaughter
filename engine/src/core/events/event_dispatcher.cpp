@@ -1,7 +1,7 @@
 #include "engine/core/events/event_dispatcher.h"
 #include "engine/core/log.h"
 
-namespace brick
+namespace bk
 {
     void EventDispatcher::subcribe(IEventListener* listener)
     {

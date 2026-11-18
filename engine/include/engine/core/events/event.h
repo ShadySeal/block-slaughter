@@ -2,7 +2,7 @@
 
 #include "event_type.h"
 
-namespace brick
+namespace bk
 {
     struct Event
     {

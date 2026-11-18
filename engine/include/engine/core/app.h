@@ -1,17 +1,19 @@
 #pragma once
 
-#include <memory>
-
 #include "engine/core/window.h"
 #include "engine/core/log.h"
+#include "engine/core/events/event_listener.h"
+#include "engine/core/events/event.h"
 
-namespace brick
+namespace bk
 {
-    class App
+    class App : public IEventListener
     {
     public:
         App();
         ~App();
+
+        void onEvent(Event event) override;
 
         void run();
 

@@ -3,9 +3,9 @@
 
 int main()
 {
-    brick::Log::init();
+    bk::Log::init();
 
-    brick::App app;
+    bk::App app;
 
     app.run();
 

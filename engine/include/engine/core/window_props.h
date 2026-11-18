@@ -2,7 +2,7 @@
 
 #include "window_mode.h"
 
-namespace brick
+namespace bk
 {
     struct WindowProps
     {

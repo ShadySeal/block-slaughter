@@ -1,6 +1,6 @@
 #include "engine/core/log.h"
 
-namespace brick
+namespace bk
 {
     std::shared_ptr<spdlog::logger> Log::s_coreLogger;
     std::shared_ptr<spdlog::logger> Log::s_clientLogger;

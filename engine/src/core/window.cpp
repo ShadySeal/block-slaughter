@@ -1,6 +1,6 @@
 #include "engine/core/window.h"
 
-namespace brick
+namespace bk
 {
     static bool s_glfwInitialized = false;
 
@@ -32,7 +32,7 @@ namespace brick
         }
 
         m_window = glfwCreateWindow(m_data.width, m_data.height, m_data.title, NULL, NULL);
-        if (m_window == NULL)
+        if (!m_window)
         {
             BK_LOG_CORE_ERROR("Failed to create window!");
             glfwTerminate();
@@ -40,11 +40,27 @@ namespace brick
         }
 
         glfwMakeContextCurrent(m_window);
+        glfwSetWindowUserPointer(m_window, this);
+
+        glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+        {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            self->m_data.width = width;
+            self->m_data.height = height;
+
+            Event event;
+            event.type = EventType::WINDOW_RESIZE;
+            event.resize.width = width;
+            event.resize.height = height;
+
+            self->dispatch(event);
+        });
     }
 
     void Window::onUpdate()
     {
         glfwSwapBuffers(m_window);
-        glfwPollEvents();    
+        glfwPollEvents();
     }
 }

@@ -7,7 +7,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-namespace brick
+namespace bk
 {
     class Log
     {
@@ -23,18 +23,34 @@ namespace brick
     };
 }
 
-// Core log macros
-#define BK_LOG_CORE_TRACE(...)  SPDLOG_LOGGER_TRACE(::brick::Log::getCoreLogger(), __VA_ARGS__)
-#define BK_LOG_CORE_DEBUG(...)  SPDLOG_LOGGER_DEBUG(::brick::Log::getCoreLogger(), __VA_ARGS__)
-#define BK_LOG_CORE_INFO(...)   SPDLOG_LOGGER_INFO(::brick::Log::getCoreLogger(), __VA_ARGS__)
-#define BK_LOG_CORE_WARN(...)   SPDLOG_LOGGER_WARN(::brick::Log::getCoreLogger(), __VA_ARGS__)
-#define BK_LOG_CORE_ERROR(...)  SPDLOG_LOGGER_ERROR(::brick::Log::getCoreLogger(), __VA_ARGS__)
-#define BK_LOG_CORE_FATAL(...)  SPDLOG_LOGGER_FATAL(::brick::Log::getCoreLogger(), __VA_ARGS__)
+#ifndef NDEBUG
+    // Core log macros
+    #define BK_LOG_CORE_TRACE(...)  SPDLOG_LOGGER_TRACE(::bk::Log::getCoreLogger(), __VA_ARGS__)
+    #define BK_LOG_CORE_DEBUG(...)  SPDLOG_LOGGER_DEBUG(::bk::Log::getCoreLogger(), __VA_ARGS__)
+    #define BK_LOG_CORE_INFO(...)   SPDLOG_LOGGER_INFO(::bk::Log::getCoreLogger(), __VA_ARGS__)
+    #define BK_LOG_CORE_WARN(...)   SPDLOG_LOGGER_WARN(::bk::Log::getCoreLogger(), __VA_ARGS__)
+    #define BK_LOG_CORE_ERROR(...)  SPDLOG_LOGGER_ERROR(::bk::Log::getCoreLogger(), __VA_ARGS__)
+    #define BK_LOG_CORE_FATAL(...)  SPDLOG_LOGGER_FATAL(::bk::Log::getCoreLogger(), __VA_ARGS__)
 
-// Client log macros
-#define BK_LOG_TRACE(...)       SPDLOG_LOGGER_TRACE(::brick::Log::getClientLogger(), __VA_ARGS__)
-#define BK_LOG_DEBUG(...)       SPDLOG_LOGGER_DEBUG(::brick::Log::getClientLogger(), __VA_ARGS__)
-#define BK_LOG_INFO(...)        SPDLOG_LOGGER_INFO(::brick::Log::getClientLogger(), __VA_ARGS__)
-#define BK_LOG_WARN(...)        SPDLOG_LOGGER_WARN(::brick::Log::getClientLogger(), __VA_ARGS__)
-#define BK_LOG_ERROR(...)       SPDLOG_LOGGER_ERROR(::brick::Log::getClientLogger(), __VA_ARGS__)
-#define BK_LOG_FATAL(...)       SPDLOG_LOGGER_FATAL(::brick::Log::getClientLogger(), __VA_ARGS__)
+    // Client log macros
+    #define BK_LOG_TRACE(...)       SPDLOG_LOGGER_TRACE(::bk::Log::getClientLogger(), __VA_ARGS__)
+    #define BK_LOG_DEBUG(...)       SPDLOG_LOGGER_DEBUG(::bk::Log::getClientLogger(), __VA_ARGS__)
+    #define BK_LOG_INFO(...)        SPDLOG_LOGGER_INFO(::bk::Log::getClientLogger(), __VA_ARGS__)
+    #define BK_LOG_WARN(...)        SPDLOG_LOGGER_WARN(::bk::Log::getClientLogger(), __VA_ARGS__)
+    #define BK_LOG_ERROR(...)       SPDLOG_LOGGER_ERROR(::bk::Log::getClientLogger(), __VA_ARGS__)
+    #define BK_LOG_FATAL(...)       SPDLOG_LOGGER_FATAL(::bk::Log::getClientLogger(), __VA_ARGS__)
+#else
+    #define BK_LOG_CORE_TRACE(...)
+    #define BK_LOG_CORE_DEBUG(...)
+    #define BK_LOG_CORE_INFO(...)
+    #define BK_LOG_CORE_WARN(...)
+    #define BK_LOG_CORE_ERROR(...)
+    #define BK_LOG_CORE_FATAL(...)
+
+    #define BK_LOG_TRACE(...)
+    #define BK_LOG_DEBUG(...)
+    #define BK_LOG_INFO(...)
+    #define BK_LOG_WARN(...)
+    #define BK_LOG_ERROR(...)
+    #define BK_LOG_FATAL(...)
+#endif

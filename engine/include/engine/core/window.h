@@ -6,10 +6,11 @@
 #include "window_props.h"
 #include "assert.h"
 #include "engine/core/log.h"
+#include "engine/core/events/event_dispatcher.h"
 
-namespace brick
+namespace bk
 {
-    class Window
+    class Window : public EventDispatcher
     {
         public:
             Window(const WindowProps& props = WindowProps());
