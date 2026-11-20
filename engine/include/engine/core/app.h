@@ -4,16 +4,17 @@
 #include "engine/core/log.h"
 #include "engine/core/events/event_listener.h"
 #include "engine/core/events/event.h"
+#include "engine/core/events/key_event.h"
 
 namespace bk
 {
-    class App : public IEventListener
+    class App
     {
     public:
         App();
         ~App();
 
-        void onEvent(Event event) override;
+        void onInput(KeyEvent& event);
 
         void run();
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <csignal>
 #include "log.h"
 
 #ifndef NDEBUG

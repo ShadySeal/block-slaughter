@@ -21,4 +21,8 @@ target_precompile_headers(brick_engine PRIVATE
     <string>
     <vector> 
     <unordered_map>
+    <map>
+    <csignal>
+    <functional>
+    <concepts>
 )

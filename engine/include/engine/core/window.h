@@ -1,12 +1,12 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "window_mode.h"
 #include "window_props.h"
 #include "assert.h"
 #include "engine/core/log.h"
 #include "engine/core/events/event_dispatcher.h"
+#include "engine/core/events/key_event.h"
 
 namespace bk
 {
