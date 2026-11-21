@@ -6,35 +6,45 @@
 #include "assert.h"
 #include "engine/core/log.h"
 #include "engine/core/events/event_dispatcher.h"
-#include "engine/core/events/key_event.h"
+#include "engine/core/events/key_pressed_event.h"
+#include "engine/core/events/key_released_event.h"
+#include "engine/core/events/key_repeat_event.h"
 
 namespace bk
 {
-    class Window : public EventDispatcher
+    class Window
     {
-        public:
-            Window(const WindowProps& props = WindowProps());
-            ~Window();
+    public:
+        Window(const WindowProps& props = WindowProps());
+        ~Window();
 
-            void pollEvents();
-            void swapBuffers();
+        void pollEvents();
+        void swapBuffers();
 
-            unsigned int getWidth() { return m_data.width; };
-            unsigned int getHeight() { return m_data.height; };
+        unsigned int getWidth() { return m_data.width; };
+        unsigned int getHeight() { return m_data.height; };
 
-        private:
-            GLFWwindow* m_window;
+        template <std::derived_from<Event> T>
+        void subscribe(std::function<void(T&)> callback)
+        {
+            m_dispatcher.subscribe<T>(std::move(callback));
+        }
 
-            struct WindowData
-            {
-                unsigned int width, height;
-                const char* title;
-                WindowMode mode;
-            };
+    private:
+        GLFWwindow* m_window;
 
-            WindowData m_data;
+        struct WindowData
+        {
+            unsigned int width, height;
+            const char* title;
+            WindowMode mode;
+        };
 
-            void init(const WindowProps& props);
-            void handleCallbacks();
+        WindowData m_data;
+        EventDispatcher m_dispatcher;
+
+        void init(const WindowProps& props);
+        void setCallbacks();
+        void dispatchEvent(Event& event) { m_dispatcher.dispatch(event); }
     };
 }

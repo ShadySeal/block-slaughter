@@ -6,35 +6,14 @@ namespace bk
     {
         m_window = std::make_unique<Window>();
 
-        m_window->subscribe<KeyEvent>([this](KeyEvent& event) { onInput(event); });
+        m_window->subscribe<KeyPressedEvent>(BIND_EVENT_FN(App::onKeyPressed));
+        m_window->subscribe<KeyReleasedEvent>(BIND_EVENT_FN(App::onKeyReleased));
+        m_window->subscribe<KeyRepeatEvent>(BIND_EVENT_FN(App::onKeyRepeat));
     }
 
     App::~App()
     {
         //m_window->unsubscribe(this);
-    }
-
-    // void App::onEvent(Event event)
-    // {
-    //     switch (event.type)
-    //     {
-    //         case EventType::WINDOW_CLOSE:
-    //         {
-    //             m_running = false;
-    //             break;
-    //         }
-    //         case EventType::KEY_PRESSED:
-    //         {
-    //             BK_LOG_CORE_TRACE("Key: {}", event.key.key);
-                
-    //             break;
-    //         }
-    //     }
-    // }
-
-    void App::onInput(KeyEvent& event)
-    {
-        BK_LOG_CORE_INFO("Key: {}", event.getKey());
     }
 
     void App::run()
@@ -46,5 +25,20 @@ namespace bk
             m_window->pollEvents();
             m_window->swapBuffers();
         }
+    }
+
+    void App::onKeyPressed(KeyPressedEvent& event)
+    {
+        BK_LOG_CORE_INFO("Key pressed: {}", event.getKeyCode());
+    }
+
+    void App::onKeyReleased(KeyReleasedEvent& event)
+    {
+        BK_LOG_CORE_INFO("Key released: {}", event.getKeyCode());
+    }
+
+    void App::onKeyRepeat(KeyRepeatEvent& event)
+    {
+        BK_LOG_CORE_INFO("Key repeat: {}", event.getKeyCode());
     }
 }

@@ -48,10 +48,10 @@ namespace bk
         glfwMakeContextCurrent(m_window);
         glfwSetWindowUserPointer(m_window, this);
 
-        handleCallbacks();
+        setCallbacks();
     }
 
-    void Window::handleCallbacks()
+    void Window::setCallbacks()
     {
         // Resize
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
@@ -87,27 +87,20 @@ namespace bk
             {
                 case GLFW_PRESS:
                 {
-                    // Event event(EventType::KEY_PRESSED);
-                    // event.key.key = key;
-                    // self->dispatch(event);
-
-                    KeyEvent event(key);
-                    self->dispatch(event);
-
+                    KeyPressedEvent event(key);
+                    self->dispatchEvent(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    // Event event(EventType::KEY_RELEASED);
-                    // event.key.key = key;
-                    // self->dispatch(event);
+                    KeyReleasedEvent event(key);
+                    self->dispatchEvent(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
-                    // Event event(EventType::KEY_REPEAT);
-                    // event.key.key = key;
-                    // self->dispatch(event);
+                    KeyRepeatEvent event(key);
+                    self->dispatchEvent(event);
                     break;
                 }
             }
