@@ -10,9 +10,9 @@ namespace bk
     {
     public:
         template <std::derived_from<Event> T>
-        void subscribe(std::function<void(T&)> callback)
+        void subscribe(const std::string& name, std::function<void(T&)> callback)
         {
-            m_handlers.push_back([callback](Event& event)
+            m_handlers[name].push_back([callback](Event& event)
             {
                 if (auto* typed = dynamic_cast<T*>(&event))
                 {
@@ -24,6 +24,6 @@ namespace bk
         void dispatch(Event& event);
 
     private:
-        std::vector<std::function<void(Event&)>> m_handlers;
+        std::unordered_map<std::string, std::vector<std::function<void(Event&)>>> m_handlers;
     };
 }

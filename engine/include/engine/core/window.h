@@ -6,9 +6,11 @@
 #include "assert.h"
 #include "engine/core/log.h"
 #include "engine/core/events/event_dispatcher.h"
-#include "engine/core/events/key_pressed_event.h"
-#include "engine/core/events/key_released_event.h"
-#include "engine/core/events/key_repeat_event.h"
+#include "engine/core/events/key_event.h"
+#include "engine/core/events/window_resize_event.h"
+#include "engine/core/events/window_close_event.h"
+#include "engine/core/events/mouse_scroll_event.h"
+#include "engine/core/events/cursor_position_event.h"
 
 namespace bk
 {
@@ -25,9 +27,9 @@ namespace bk
         unsigned int getHeight() { return m_data.height; };
 
         template <std::derived_from<Event> T>
-        void subscribe(std::function<void(T&)> callback)
+        void subscribe(const std::string& name, std::function<void(T&)> callback)
         {
-            m_dispatcher.subscribe<T>(std::move(callback));
+            m_dispatcher.subscribe<T>(name, callback);
         }
 
     private:

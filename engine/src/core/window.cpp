@@ -61,11 +61,9 @@ namespace bk
             self->m_data.width = width;
             self->m_data.height = height;
 
-            // Event event(EventType::WINDOW_RESIZE);
-            // event.resize.width = width;
-            // event.resize.height = height;
+            WindowResizeEvent event("window_resize", width, height);
 
-            // self->dispatch(event);
+            self->dispatchEvent(event);
         });
 
         // Close
@@ -73,9 +71,9 @@ namespace bk
         {
             auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-            // Event event(EventType::WINDOW_CLOSE);
+            WindowCloseEvent event("window_close");
 
-            // self->dispatch(event);
+            self->dispatchEvent(event);
         });
 
         // Keys
@@ -87,19 +85,19 @@ namespace bk
             {
                 case GLFW_PRESS:
                 {
-                    KeyPressedEvent event(key);
+                    KeyEvent event("key_press", key);
                     self->dispatchEvent(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyReleasedEvent event(key);
+                    KeyEvent event("key_release", key);
                     self->dispatchEvent(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
-                    KeyRepeatEvent event(key);
+                    KeyEvent event("key_repeat", key);
                     self->dispatchEvent(event);
                     break;
                 }
@@ -115,14 +113,14 @@ namespace bk
             {
                 case GLFW_PRESS:
                 {
-                    // Event event(EventType::MOUSE_BUTTON_PRESSED);
-                    // self->dispatch(event);
+                    KeyEvent event("mouse_press", button);
+                    self->dispatchEvent(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    // Event event(EventType::MOUSE_BUTTON_RELEASED);
-                    // self->dispatch(event);
+                    KeyEvent event("mouse_release", button);
+                    self->dispatchEvent(event);
                     break;
                 }
             }
@@ -133,11 +131,9 @@ namespace bk
         {
             auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-            // Event event(EventType::MOUSE_SCROLLED);
-            // event.scroll.x = xOffset;
-            // event.scroll.y = yOffset;
+            MouseScrollEvent event("mouse_scroll", (float)xOffset, (float)yOffset);
 
-            //self->dispatch(event);
+            self->dispatchEvent(event);
         });
 
         // Cursor
@@ -145,11 +141,9 @@ namespace bk
         {
             auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-            // Event event(EventType::MOUSE_SCROLLED);
-            // event.mouse.x = xPos;
-            // event.mouse.y = yPos;
+            CursorPositionEvent event("cursor_position", (float)xPos, (float)yPos);
 
-            //self->dispatch(event);
+            self->dispatchEvent(event);
         });
     }
 
