@@ -7,8 +7,8 @@ namespace bk
     class MouseScrollEvent : public Event
     {
     public:
-        MouseScrollEvent(std::string name, float x, float y)
-            : Event(name), m_scrollX(x), m_scrollY(y) {};
+        MouseScrollEvent(float x, float y)
+            : m_scrollX(x), m_scrollY(y) {};
             
         float getScrollX() const { return m_scrollX; };
         float getScrollY() const { return m_scrollY; };

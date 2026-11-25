@@ -2,6 +2,7 @@
 
 #include "engine/core/window.h"
 #include "engine/core/log.h"
+#include "engine/core/events/event_propagator.h"
 #include "engine/core/events/key_event.h"
 #include "engine/core/events/window_resize_event.h"
 #include "engine/core/events/window_close_event.h"
@@ -18,6 +19,12 @@ namespace bk
 
         void run();
 
+    private:
+        std::unique_ptr<Window> m_window;
+        bool m_running;
+
+        void onEvent(Event& event);
+
         // Events
         void onWindowResized(WindowResizeEvent& event);
         void onWindowClosed(WindowCloseEvent& event);
@@ -28,9 +35,5 @@ namespace bk
         void onMouseReleased(KeyEvent& event);
         void onMouseScrolled(MouseScrollEvent& event);
         void onMousePosition(CursorPositionEvent& event);
-
-    private:
-        std::unique_ptr<Window> m_window;
-        bool m_running;
     };
 }

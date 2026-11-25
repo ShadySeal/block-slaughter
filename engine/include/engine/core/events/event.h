@@ -4,13 +4,12 @@ namespace bk
 {
     class Event
     {
+        friend class EventPropagator;
+
     public:
         virtual ~Event() = default;
-        std::string getName() const { return m_name; };
-    
-    protected:
-        Event(const std::string name) : m_name(name) {};
 
-        const std::string m_name;
+    private:
+        bool m_handled = false;
     };
 }

@@ -5,7 +5,7 @@
 #include "window_props.h"
 #include "assert.h"
 #include "engine/core/log.h"
-#include "engine/core/events/event_dispatcher.h"
+#include "engine/core/events/event.h"
 #include "engine/core/events/key_event.h"
 #include "engine/core/events/window_resize_event.h"
 #include "engine/core/events/window_close_event.h"
@@ -26,11 +26,7 @@ namespace bk
         unsigned int getWidth() { return m_data.width; };
         unsigned int getHeight() { return m_data.height; };
 
-        template <std::derived_from<Event> T>
-        void subscribe(const std::string& name, std::function<void(T&)> callback)
-        {
-            m_dispatcher.subscribe<T>(name, callback);
-        }
+        void setEventCallback(const std::function<void(Event&)> callback) { m_data.eventCallback = callback; };
 
     private:
         GLFWwindow* m_window;
@@ -40,13 +36,13 @@ namespace bk
             unsigned int width, height;
             const char* title;
             WindowMode mode;
+
+            std::function<void(Event&)> eventCallback;
         };
 
         WindowData m_data;
-        EventDispatcher m_dispatcher;
 
         void init(const WindowProps& props);
         void setCallbacks();
-        void dispatchEvent(Event& event) { m_dispatcher.dispatch(event); }
     };
 }

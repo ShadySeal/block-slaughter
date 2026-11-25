@@ -2,10 +2,12 @@
 
 #include "event.h"
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
-
 namespace bk
 {
+    // This class is similar to EventPropagator, but is subscription based and can hold multiple events in a list (similar to C# events).
+    // The plan is to use this class to handle some in-game code.
+    // TODO: Remove name requirement and make m_handlers a vector.
+
     class EventDispatcher
     {
     public:

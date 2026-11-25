@@ -6,15 +6,7 @@ namespace bk
     {
         m_window = std::make_unique<Window>();
 
-        m_window->subscribe<WindowResizeEvent>("window_resize", BIND_EVENT_FN(App::onWindowResized));
-        m_window->subscribe<WindowCloseEvent>("window_close", BIND_EVENT_FN(App::onWindowClosed));
-        m_window->subscribe<KeyEvent>("key_press", BIND_EVENT_FN(App::onKeyPressed));
-        m_window->subscribe<KeyEvent>("key_release", BIND_EVENT_FN(App::onKeyReleased));
-        m_window->subscribe<KeyEvent>("key_repeat", BIND_EVENT_FN(App::onKeyRepeated));
-        m_window->subscribe<KeyEvent>("mouse_press", BIND_EVENT_FN(App::onMousePressed));
-        m_window->subscribe<KeyEvent>("mouse_release", BIND_EVENT_FN(App::onMouseReleased));
-        m_window->subscribe<MouseScrollEvent>("mouse_scroll", BIND_EVENT_FN(App::onMouseScrolled));
-        m_window->subscribe<CursorPositionEvent>("cursor_position", BIND_EVENT_FN(App::onMousePosition));
+        m_window->setEventCallback(BIND_EVENT_FN(App::onEvent));
     }
 
     App::~App()
@@ -31,6 +23,24 @@ namespace bk
             m_window->pollEvents();
             m_window->swapBuffers();
         }
+    }
+
+    void App::onEvent(Event& event)
+    {
+        EventPropagator propagator(event);
+
+        propagator.propagate<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClosed));
+        propagator.propagate<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClosed));
+        propagator.propagate<WindowResizeEvent>(BIND_EVENT_FN(App::onWindowResized));
+
+        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyPressed));
+        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyReleased));
+        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyRepeated));
+
+        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onMousePressed));
+        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onMouseReleased));
+        propagator.propagate<MouseScrollEvent>(BIND_EVENT_FN(App::onMouseScrolled));
+        propagator.propagate<CursorPositionEvent>(BIND_EVENT_FN(App::onMousePosition));
     }
 
     void App::onWindowResized(WindowResizeEvent& event)

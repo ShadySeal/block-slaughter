@@ -46,7 +46,7 @@ namespace bk
         }
 
         glfwMakeContextCurrent(m_window);
-        glfwSetWindowUserPointer(m_window, this);
+        glfwSetWindowUserPointer(m_window, &m_data);
 
         setCallbacks();
     }
@@ -56,49 +56,47 @@ namespace bk
         // Resize
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            self->m_data.width = width;
-            self->m_data.height = height;
+            data.width = width;
+            data.height = height;
 
-            WindowResizeEvent event("window_resize", width, height);
-
-            self->dispatchEvent(event);
+            WindowResizeEvent event(width, height);
+            data.eventCallback(event);
         });
 
         // Close
         glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            WindowCloseEvent event("window_close");
-
-            self->dispatchEvent(event);
+            WindowCloseEvent event;
+            data.eventCallback(event);
         });
 
         // Keys
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
             switch (action)
             {
                 case GLFW_PRESS:
                 {
-                    KeyEvent event("key_press", key);
-                    self->dispatchEvent(event);
+                    KeyEvent event(key);
+                    data.eventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyEvent event("key_release", key);
-                    self->dispatchEvent(event);
+                    KeyEvent event(key);
+                    data.eventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
-                    KeyEvent event("key_repeat", key);
-                    self->dispatchEvent(event);
+                    KeyEvent event(key);
+                    data.eventCallback(event);
                     break;
                 }
             }
@@ -107,20 +105,20 @@ namespace bk
         // Mouse
         glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
             switch (action)
             {
                 case GLFW_PRESS:
                 {
-                    KeyEvent event("mouse_press", button);
-                    self->dispatchEvent(event);
+                    KeyEvent event(button);
+                    data.eventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyEvent event("mouse_release", button);
-                    self->dispatchEvent(event);
+                    KeyEvent event(button);
+                    data.eventCallback(event);
                     break;
                 }
             }
@@ -129,21 +127,19 @@ namespace bk
         // Scroll
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            MouseScrollEvent event("mouse_scroll", (float)xOffset, (float)yOffset);
-
-            self->dispatchEvent(event);
+            MouseScrollEvent event((float)xOffset, (float)yOffset);
+            data.eventCallback(event);
         });
 
         // Cursor
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos)
         {
-            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            CursorPositionEvent event("cursor_position", (float)xPos, (float)yPos);
-
-            self->dispatchEvent(event);
+            CursorPositionEvent event((float)xPos, (float)yPos);
+            data.eventCallback(event);
         });
     }
 
