@@ -12,6 +12,7 @@ target_link_libraries(brick_engine PUBLIC
     glm::glm
     OpenGL::GL
     spdlog::spdlog
+    imgui
 )
 
 target_precompile_headers(brick_engine PRIVATE
