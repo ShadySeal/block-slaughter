@@ -15,7 +15,7 @@ add_subdirectory(engine)
 add_subdirectory(libs/spdlog)
 add_subdirectory(libs/glfw)
 add_subdirectory(libs/glad)
-add_subdirectory(libs/imgui)
+include(libs/imgui.cmake)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
