@@ -5,7 +5,6 @@ namespace bk
     App::App()
     {
         m_window = std::make_unique<Window>();
-
         m_window->setEventCallback(BIND_EVENT_FN(App::onEvent));
     }
 
@@ -20,6 +19,11 @@ namespace bk
 
         while (m_running)
         {
+            for (Layer* layer : m_layerStack)
+            {
+                layer->onUpdate();
+            }
+
             m_window->pollEvents();
             m_window->swapBuffers();
         }
@@ -41,6 +45,25 @@ namespace bk
         propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onMouseReleased));
         propagator.propagate<MouseScrollEvent>(BIND_EVENT_FN(App::onMouseScrolled));
         propagator.propagate<CursorPositionEvent>(BIND_EVENT_FN(App::onMousePosition));
+
+        for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
+        {
+            (*--it)->onEvent(event);
+            if (event.isHandled())
+            {
+                break;
+            }
+        }
+    }
+
+    void App::pushLayer(Layer* layer)
+    {
+        m_layerStack.pushLayer(layer);
+    }
+
+    void App::pushOverlay(Layer* layer)
+    {
+        m_layerStack.pushOverlay(layer);
     }
 
     void App::onWindowResized(WindowResizeEvent& event)

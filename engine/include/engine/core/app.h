@@ -8,6 +8,8 @@
 #include "engine/core/events/window_close_event.h"
 #include "engine/core/events/mouse_scroll_event.h"
 #include "engine/core/events/cursor_position_event.h"
+#include "engine/core/layer.h"
+#include "engine/core/layer_stack.h"
 
 namespace bk
 {
@@ -19,11 +21,15 @@ namespace bk
 
         void run();
 
+        void onEvent(Event& event);
+
+        void pushLayer(Layer* layer);
+        void pushOverlay(Layer* layer);
+
     private:
         std::unique_ptr<Window> m_window;
         bool m_running;
-
-        void onEvent(Event& event);
+        LayerStack m_layerStack;
 
         // Events
         void onWindowResized(WindowResizeEvent& event);
