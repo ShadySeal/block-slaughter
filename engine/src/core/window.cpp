@@ -20,12 +20,10 @@ namespace bk
 
     void Window::init(const WindowProps& props)
     {
-        m_data.height = props.height;
-        m_data.width = props.width;
         m_data.title = props.title;
         m_data.mode = props.mode;
 
-        BK_LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, m_data.height, m_data.width);
+        BK_LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, m_data.wHeight, m_data.wWidth);
         
         if (!s_glfwInitialized)
         {
@@ -37,7 +35,11 @@ namespace bk
             s_glfwInitialized = true;
         }
 
-        m_window = glfwCreateWindow(m_data.width, m_data.height, m_data.title, NULL, NULL);
+        m_window = glfwCreateWindow(props.width, props.height, m_data.title, NULL, NULL);
+
+        glfwGetWindowSize(m_window, &m_data.wWidth, &m_data.wHeight);
+        glfwGetFramebufferSize(m_window, &m_data.fWidth, &m_data.fHeight);
+
         if (!m_window)
         {
             BK_LOG_CORE_ERROR("Failed to create window!");
@@ -58,8 +60,8 @@ namespace bk
         {
             WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            data.width = width;
-            data.height = height;
+            data.wWidth = width;
+            data.wHeight = height;
 
             WindowResizeEvent event(width, height);
             data.eventCallback(event);
@@ -83,19 +85,19 @@ namespace bk
             {
                 case GLFW_PRESS:
                 {
-                    KeyEvent event(key);
+                    KeyPressedEvent event(key);
                     data.eventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyEvent event(key);
+                    KeyReleasedEvent event(key);
                     data.eventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
-                    KeyEvent event(key);
+                    KeyPressedEvent event(key);
                     data.eventCallback(event);
                     break;
                 }
@@ -111,13 +113,13 @@ namespace bk
             {
                 case GLFW_PRESS:
                 {
-                    KeyEvent event(button);
+                    MousePressedEvent event(button);
                     data.eventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyEvent event(button);
+                    MouseReleasedEvent event(button);
                     data.eventCallback(event);
                     break;
                 }

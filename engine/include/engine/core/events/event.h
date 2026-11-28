@@ -9,7 +9,7 @@ namespace bk
     public:
         virtual ~Event() = default;
 
-        bool isHandled() { return m_handled; };
+        bool isHandled() const { return m_handled; };
 
     private:
         bool m_handled = false;

@@ -2,8 +2,13 @@
 
 namespace bk
 {
+    App* App::s_instance = nullptr;
+
     App::App()
     {
+        BK_CORE_ASSERT(!s_instance, "Application already exists!")
+        s_instance = this;
+
         m_window = std::make_unique<Window>();
         m_window->setEventCallback(BIND_EVENT_FN(App::onEvent));
     }
@@ -34,17 +39,6 @@ namespace bk
         EventPropagator propagator(event);
 
         propagator.propagate<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClosed));
-        propagator.propagate<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClosed));
-        propagator.propagate<WindowResizeEvent>(BIND_EVENT_FN(App::onWindowResized));
-
-        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyPressed));
-        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyReleased));
-        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onKeyRepeated));
-
-        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onMousePressed));
-        propagator.propagate<KeyEvent>(BIND_EVENT_FN(App::onMouseReleased));
-        propagator.propagate<MouseScrollEvent>(BIND_EVENT_FN(App::onMouseScrolled));
-        propagator.propagate<CursorPositionEvent>(BIND_EVENT_FN(App::onMousePosition));
 
         for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
         {
@@ -59,55 +53,17 @@ namespace bk
     void App::pushLayer(Layer* layer)
     {
         m_layerStack.pushLayer(layer);
+        layer->onAttach();
     }
 
     void App::pushOverlay(Layer* layer)
     {
         m_layerStack.pushOverlay(layer);
-    }
-
-    void App::onWindowResized(WindowResizeEvent& event)
-    {
-        //BK_LOG_CORE_TRACE("Window resized: ({}x{})", event.getWidth(), event.getHeight());
+        layer->onAttach();
     }
 
      void App::onWindowClosed(WindowCloseEvent& event)
     {
         m_running = false;
-    }
-
-    void App::onKeyPressed(KeyEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Key pressed: {}", event.getKeyCode());
-    }
-
-    void App::onKeyReleased(KeyEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Key released: {}", event.getKeyCode());
-    }
-
-    void App::onKeyRepeated(KeyEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Key repeat: {}", event.getKeyCode());
-    }
-
-    void App::onMousePressed(KeyEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Key pressed: {}", event.getKeyCode());
-    }
-
-    void App::onMouseReleased(KeyEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Key released: {}", event.getKeyCode());
-    }
-
-    void App::onMouseScrolled(MouseScrollEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Scroll direction: X: {}, Y: {}", event.getScrollX(), event.getScrollY());
-    }
-
-    void App::onMousePosition(CursorPositionEvent& event)
-    {
-        //BK_LOG_CORE_INFO("Mouse postion: X: {}, Y: {}", event.getPosX(), event.getPosY());
     }
 }

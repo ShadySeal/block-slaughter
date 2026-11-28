@@ -7,10 +7,12 @@ namespace bk
     class KeyEvent : public Event
     {
     public:
-        KeyEvent(int keyCode) : m_keyCode(keyCode) {};
-        int getKeyCode() { return m_keyCode; };
+        int getKeyCode() const { return m_keyCode; };
     
-    private:
+    protected:
+        KeyEvent(int keyCode)
+            : m_keyCode(keyCode) {};
+            
         int m_keyCode;
     };
 }

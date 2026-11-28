@@ -7,12 +7,12 @@ namespace bk
     class Layer
     {
     public:
-        Layer();
-        virtual ~Layer();
+        Layer() = default;
+        virtual ~Layer() = default;
 
-        virtual void onAttach();
-        virtual void onDetach();
-        virtual void onUpdate();
-        virtual void onEvent(Event& event);
+        virtual void onAttach() {}
+        virtual void onDetach() {}
+        virtual void onUpdate() {}
+        virtual void onEvent(Event& event) {}
     };
 }
