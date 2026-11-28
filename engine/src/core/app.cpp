@@ -1,4 +1,8 @@
+#include <glad/glad.h>
+
 #include "engine/core/app.h"
+
+#include "engine/core/assert.h"
 
 namespace bk
 {
@@ -24,6 +28,9 @@ namespace bk
 
         while (m_running)
         {
+            glClearColor(0, 0, 1, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
+
             for (Layer* layer : m_layerStack)
             {
                 layer->onUpdate();

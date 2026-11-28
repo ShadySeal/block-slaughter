@@ -1,19 +1,10 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include "window_mode.h"
 #include "window_props.h"
-#include "assert.h"
-#include "engine/core/log.h"
 #include "engine/core/events/event.h"
-#include "engine/core/events/window_resize_event.h"
-#include "engine/core/events/window_close_event.h"
-#include "engine/core/events/mouse_scroll_event.h"
-#include "engine/core/events/cursor_position_event.h"
-#include "engine/core/events/key_pressed_event.h"
-#include "engine/core/events/key_released_event.h"
-#include "engine/core/events/mouse_pressed_event.h"
-#include "engine/core/events/mouse_released_event.h"
+
+struct GLFWwindow;
 
 namespace bk
 {
@@ -26,12 +17,14 @@ namespace bk
         void pollEvents();
         void swapBuffers();
 
-        unsigned int getWidth() { return m_data.wWidth; };
-        unsigned int getHeight() { return m_data.wHeight; };
-        unsigned int getFramebufferWidth() { return m_data.fWidth; };
-        unsigned int getFramebufferHeight() { return m_data.fHeight; };
+        int getWindowWidth() { return m_data.wWidth; };
+        int getWindowHeight() { return m_data.wHeight; };
+        int getFramebufferWidth() { return m_data.fWidth; };
+        int getFramebufferHeight() { return m_data.fHeight; };
 
         void setEventCallback(const std::function<void(Event&)> callback) { m_data.eventCallback = callback; };
+
+        GLFWwindow* getNativeWindow() const { return m_window; };
 
     private:
         GLFWwindow* m_window;

@@ -6,16 +6,19 @@ add_library(brick_engine STATIC ${ENGINE_SOURCES})
 
 target_include_directories(brick_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(brick_engine PUBLIC
-    glad
-    glfw
-    glm::glm
-    OpenGL::GL
-    spdlog::spdlog
-    imgui
+target_link_libraries(brick_engine
+    PRIVATE
+        OpenGL::GL
+        glad
+        glfw
+        imgui
+        stb
+    PUBLIC
+        glm::glm
+        spdlog::spdlog
 )
 
-target_precompile_headers(brick_engine PRIVATE
+target_precompile_headers(brick_engine PUBLIC
     <iostream>
     <memory>
     <algorithm>

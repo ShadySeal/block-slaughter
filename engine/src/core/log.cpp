@@ -1,3 +1,5 @@
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 #include "engine/core/log.h"
 
 namespace bk

@@ -14,6 +14,6 @@ namespace bk
             unsigned int height = 720,
             const char* title = "Block Slaughter",
             WindowMode mode = WindowMode::WINDOWED)
-            : width(width), height(height), title(title), mode(mode) {};
+                : width(width), height(height), title(title), mode(mode) {};
     };
 }

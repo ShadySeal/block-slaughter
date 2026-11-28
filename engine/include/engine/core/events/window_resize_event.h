@@ -7,13 +7,17 @@ namespace bk
     class WindowResizeEvent : public Event
     {
     public:
-        WindowResizeEvent(unsigned int width, unsigned int height)
-            : m_width(width), m_height(height) {};
+        WindowResizeEvent(int width, int height)
+            : m_wW(width), m_wH(height) {};
 
-        int getWidth() const { return m_width; };
-        int getHeight() const { return m_height; };
+        int getWindowWidth() const { return m_wW; };
+        int getWindowHeight() const { return m_wH; };
+
+        int getFramebufferWidth() const { return m_fW; };
+        int getFramebufferHeight() const { return m_fH; };
     
     private:
-        unsigned int m_width, m_height;
+        int m_wW, m_wH;
+        int m_fW, m_fH;
     };
 }

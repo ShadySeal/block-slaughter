@@ -1,4 +1,18 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "engine/core/window.h"
+
+#include "engine/core/events/window_resize_event.h"
+#include "engine/core/events/window_close_event.h"
+#include "engine/core/events/mouse_scroll_event.h"
+#include "engine/core/events/cursor_position_event.h"
+#include "engine/core/events/key_pressed_event.h"
+#include "engine/core/events/key_released_event.h"
+#include "engine/core/events/mouse_pressed_event.h"
+#include "engine/core/events/mouse_released_event.h"
+#include "engine/core/assert.h"
+#include "engine/core/log.h"
 
 namespace bk
 {
@@ -23,7 +37,7 @@ namespace bk
         m_data.title = props.title;
         m_data.mode = props.mode;
 
-        BK_LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, m_data.wHeight, m_data.wWidth);
+        BK_LOG_CORE_INFO("Creating a window {} ({}x{})", m_data.title, props.width, props.height);
         
         if (!s_glfwInitialized)
         {
@@ -48,6 +62,12 @@ namespace bk
         }
 
         glfwMakeContextCurrent(m_window);
+
+        int loaded = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        BK_CORE_ASSERT(loaded, "Could not initialize GLAD!");
+
+        glViewport(0, 0, m_data.wWidth, m_data.wHeight);
+
         glfwSetWindowUserPointer(m_window, &m_data);
 
         setCallbacks();
@@ -56,12 +76,21 @@ namespace bk
     void Window::setCallbacks()
     {
         // Resize
+        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+        {
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+            data.wWidth = width;
+            data.wHeight = height;
+        });
+
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
         {
             WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 
-            data.wWidth = width;
-            data.wHeight = height;
+            data.fWidth = width;
+            data.fHeight = height;
+
+            glViewport(0, 0, width, height);
 
             WindowResizeEvent event(width, height);
             data.eventCallback(event);
